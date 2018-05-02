@@ -1,0 +1,7 @@
+function TreeNode(value) {
+  this.val = value;
+  this.left = null;
+  this.right = null;
+}
+
+module.exports = TreeNode;
