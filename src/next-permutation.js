@@ -32,38 +32,42 @@ var reverseValues = function(values, startIndex, endIndex) {
   }
 }
 
-var nextPermutation = function(values) {
-  var i, pivot, start;
-  for (i = values.length - 1; i > 0; i -= 1) {
-    if (values[i - 1] < values[i]) {
-      pivot = i;
-      break;
+var nextPermutation = function(nums) {
+  var nextHighestValue = Number.MAX_SAFE_INTEGER,
+      nextHighestValueIndex,
+      pivotIndex = nums.length - 1,
+      startIndex;
+
+  // move from right to left
+  // until find index where the value left of it is less than current value
+  // this implies that everything to right is in descending order
+  while (pivotIndex > 0 && nums[pivotIndex - 1] >= nums[pivotIndex]) {
+    pivotIndex -= 1;
+  }
+
+  // pivotIndex === 0
+  // if can't find value that's less than next value
+  // must be reverse sorted
+  // so reversing that should return ascending order
+
+
+  if (pivotIndex > 0) {
+    // from left back to right
+    // replace current pivot index with next highest value
+    for (startIndex = pivotIndex; startIndex < nums.length; startIndex += 1) {
+      if (nums[startIndex] <= nextHighestValue && nums[pivotIndex - 1] < nums[startIndex]) {
+        nextHighestValue = nums[startIndex];
+        nextHighestValueIndex = startIndex;
+      }
+    }
+
+    if (nextHighestValueIndex !== undefined) {
+      swap(nums, pivotIndex - 1, nextHighestValueIndex);
     }
   }
 
-  if (typeof pivot === 'undefined') {
-    // if can't find value that's less than next value
-    // must be reverse sorted
-    // so reversing that should return ascending order
-    reverseValues(values, 0, values.length - 1);
-    return;
-  }
-
-  var nextHighestValue = Number.MAX_SAFE_INTEGER;
-  var nextHighestIndex;
-  for (start = pivot; start < values.length; start += 1) {
-    if (values[start] < nextHighestValue && values[pivot - 1] < nextHighestValue) {
-      nextHighestValue = values[start];
-      nextHighestIndex = start;
-    }
-  }
-
-  if (nextHighestIndex) {
-    swap(values, pivot - 1, nextHighestIndex);
-  }
-
-
-  reverseValues(values, i, values.length - 1);
+  // ensure that all nums from pivotIndex to end are now in ascending order
+  reverseValues(nums, pivotIndex, nums.length - 1);
 };
 
 module.exports = nextPermutation;
