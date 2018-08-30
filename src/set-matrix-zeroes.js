@@ -76,6 +76,10 @@ var setZeroes = function(matrix) {
 
   width = matrix[height - 1].length;
 
+  // Iterate through matrix and if a zero exists
+  // Set the cells at the start of the row / column to 0
+  // These row / column start cells will be used later to modify the matrix
+  // For the first row and column, since they share a cell, I instead use two booleans
   for (i = 0; i < height; i++) {
     for (j = 0; j < width; j++) {
       cell = matrix[i][j];
@@ -95,6 +99,8 @@ var setZeroes = function(matrix) {
     }
   }
 
+  // Iterate through all non-rows except the first
+  // If the start of the row contains a zero, replace all values in the row with a zero
   for (i = height - 1; i > 0 ; i--) {
     row = matrix[i];
     cell = row[0];
@@ -105,15 +111,18 @@ var setZeroes = function(matrix) {
     }
   }
 
+  // Iterate through all columns, except the first
+  // If the start of the column contains a zero, replace all values in the column with a zero
   for (j = width - 1; j > 0; j--) {
     cell = matrix[0][j]
     if (!cell) {
       for (rowIndex = 1; rowIndex < height; rowIndex += 1) {
-        matrix[rowIndex][j];
+        matrix[rowIndex][j]  = 0;
       }
     }
   }
 
+  // If there are zeroes in the first row, replace all values in the first row with a zero
   if (zeroesInFirstRow) {
     firstRow = matrix[0];
     for (columnIndex = 0; columnIndex < width; columnIndex += 1) {
@@ -121,9 +130,10 @@ var setZeroes = function(matrix) {
     }
   }
 
+  // If there are zeroes in the first column, replace all values in the first column with a zero
   if (zeroesInFirstColumn) {
-    for (rowIndex = 0; rowIndex < width; rowIndex += 1) {
-      matrix[0][rowIndex];
+    for (rowIndex = 0; rowIndex < height; rowIndex += 1) {
+      matrix[rowIndex][0] = 0;
     }
   }
 };
