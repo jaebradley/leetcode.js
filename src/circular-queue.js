@@ -54,6 +54,9 @@ MyCircularQueue.prototype.deQueue = function() {
  * @return {number}
  */
 MyCircularQueue.prototype.Front = function() {
+  if (this.isEmpty()) {
+    return -1;
+  }
   return this.values[this.frontIndex];
 };
 
@@ -62,6 +65,9 @@ MyCircularQueue.prototype.Front = function() {
  * @return {number}
  */
 MyCircularQueue.prototype.Rear = function() {
+  if (this.isEmpty()) {
+    return -1;
+  }
   return this.values[this.rearIndex];
 };
 

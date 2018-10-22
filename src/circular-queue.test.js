@@ -1,42 +1,100 @@
 var MyCircularQueue = require('./circular-queue');
 
 describe('MyCircularQueue', function() {
-  it('is false when dequeuing', function() {
-    var queue = new MyCircularQueue(3);
-    expect(queue.deQueue()).toBe(false);
+  describe('when queue is empty', function() {
+    it('is false when dequeuing', function() {
+      var queue = new MyCircularQueue(3);
+      expect(queue.deQueue()).toBe(false);
+    });
+
+    it('is true when enqueuing', function() {
+      var queue = new MyCircularQueue(3);
+      expect(queue.enQueue(1)).toBe(true);
+    });
+
+    it('enqueued value is front value', function() {
+      var queue = new MyCircularQueue(3);
+      queue.enQueue(1)
+      expect(queue.Front()).toBe(1);
+    });
+
+    it('enqueued value is rear value', function() {
+      var queue = new MyCircularQueue(3);
+      queue.enQueue(1)
+      expect(queue.Rear()).toBe(1);
+    });
   });
 
-  it('is true when enqueuing', function() {
-    var queue = new MyCircularQueue(3);
-    expect(queue.enQueue(1)).toBe(true);
+  describe('when queue is full', function() {
+    describe('when queue is of size 0', function() {
+      it('is false when dequeuing', function() {
+        var queue = new MyCircularQueue(0);
+        expect(queue.deQueue()).toBe(false);
+      });
+    });
+
+    describe('when queue has a size greater than 0', function() {
+      it('is false when enqueuing', function() {
+        var queue = new MyCircularQueue(1);
+        queue.enQueue(1);
+        expect(queue.enQueue(2)).toBe(false);
+      });
+
+      it('is true when dequeuing', function() {
+        var queue = new MyCircularQueue(1);
+        queue.enQueue(1);
+        expect(queue.deQueue()).toBe(true);
+      });
+    });
   });
 
-  it('adds value to front when enqueuing', function() {
-    var queue = new MyCircularQueue(3);
-    queue.enQueue(1)
-    expect(queue.Front()).toBe(1);
-  });
+  describe('when queue is not empty nor full', function() {
+    describe('when queue has one element left', function() {
+      describe('when dequeuing', function() {
+        it('returns true', function() {
+          var queue = new MyCircularQueue(1);
+          queue.enQueue(1);
+          expect(queue.deQueue()).toBe(true);
+        });
 
-  it('enqueues to "front" of array', function() {
-    var queue = new MyCircularQueue(3);
-    queue.enQueue(1)
-    queue.enQueue(2);
-    queue.enQueue(3);
-    queue.deQueue();
-    expect(queue.Front()).toBe(2);
-    queue.enQueue(4);
-    expect(queue.Rear()).toBe(4);
+        it('front is -1', function() {
+          var queue = new MyCircularQueue(1);
+          queue.enQueue(1);
+          expect(queue.Front()).toBe(1);
+          queue.deQueue();
+          expect(queue.Front()).toBe(-1);
+        });
 
-    queue.deQueue();
-    expect(queue.Front()).toBe(3);
-    queue.deQueue();
+        it('rear is -1', function() {
+          var queue = new MyCircularQueue(1);
+          queue.enQueue(1);
+          expect(queue.Rear()).toBe(1);
+          queue.deQueue();
+          expect(queue.Rear()).toBe(-1);
+        });
+      });
+    });
 
-    expect(queue.Front()).toBe(4);
-    expect(queue.Rear()).toBe(4);
+    describe('when queue has more than one element left', function() {
+      describe('when dequeuing', function() {
+        it('moves to next front', function() {
+          var queue = new MyCircularQueue(2);
+          queue.enQueue(1);
+          queue.enQueue(2);
+          expect(queue.Front()).toBe(1);
+          expect(queue.deQueue()).toBe(true);
+          expect(queue.Front()).toBe(2);
+        });
 
-    queue.enQueue(5);
-
-    expect(queue.Front()).toBe(4);
-    expect(queue.Rear()).toBe(5);
+        it('rear does not change', function() {
+          var queue = new MyCircularQueue(2);
+          queue.enQueue(1);
+          queue.enQueue(2);
+          expect(queue.Rear()).toBe(2);
+          queue.deQueue();
+          expect(queue.Rear()).toBe(2);
+        });
+      });
+    });
   });
 })
