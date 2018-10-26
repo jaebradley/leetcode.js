@@ -33,6 +33,9 @@ Output: false
  * @return {boolean}
  */
 var searchMatrix = function(matrix, target) {
+  if (matrix.length < 1) {
+    return false;
+  }
   return binarySearch(0, matrix.length * matrix[0].length - 1, target, matrix);
 };
 
@@ -40,7 +43,7 @@ var getMatrixValueFromIndex = function(index, matrix) {
   var rowIndex,
       columnIndex;
 
-  rowIndex = Math.floor(index / (matrix.length * matrix[0].length));
+  rowIndex = Math.floor(index / matrix[0].length);
   columnIndex = index % matrix[0].length;
 
   return matrix[rowIndex][columnIndex];
