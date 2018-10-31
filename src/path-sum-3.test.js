@@ -146,7 +146,7 @@ describe('pathSum3', function() {
     describe('when binary tree is not balanced', function() {
       beforeEach(function() {
         binaryTree = new TreeNode(1);
-        binaryTree.left = new TreeNode(2);
+        binaryTree.left = new TreeNode(-10);
         binaryTree.right = new TreeNode(3);
         binaryTree.right.left = new TreeNode(4);
         binaryTree.right.right = new TreeNode(5);
@@ -154,11 +154,11 @@ describe('pathSum3', function() {
 
       describe('when leaf node at height of two matches', function() {
         beforeEach(function() {
-          target = 3;
+          target = -9;
         });
 
         it('returns matching path', function() {
-          expect(pathSum(binaryTree, target)).toEqual([[1, 2]]);
+          expect(pathSum(binaryTree, target)).toEqual([[1, -10]]);
         });
       });
 

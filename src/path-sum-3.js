@@ -48,20 +48,18 @@ var pathSum = function(root, sum) {
       return;
     }
 
-    if (currentSum < sum) {
-      if (node.left) {
-        var nextLeftCurrentSum = currentSum + node.left.val;
-        var nextLeftValues = values.slice();
-        nextLeftValues.push(node.left.val);
-        dfs(nextLeftCurrentSum, node.left, nextLeftValues);
-      }
+    if (node.left) {
+      var nextLeftCurrentSum = currentSum + node.left.val;
+      var nextLeftValues = values.slice();
+      nextLeftValues.push(node.left.val);
+      dfs(nextLeftCurrentSum, node.left, nextLeftValues);
+    }
 
-      if (node.right) {
-        var nextRightCurrentSum = currentSum + node.right.val;
-        var nextRightValues = values.slice();
-        nextRightValues.push(node.right.val);
-        dfs(nextRightCurrentSum, node.right, nextRightValues);
-      }
+    if (node.right) {
+      var nextRightCurrentSum = currentSum + node.right.val;
+      var nextRightValues = values.slice();
+      nextRightValues.push(node.right.val);
+      dfs(nextRightCurrentSum, node.right, nextRightValues);
     }
 
     return;
